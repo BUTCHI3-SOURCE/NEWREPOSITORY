@@ -6,13 +6,12 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="047226a1-3e7b-45a3-9b0d-d4e81a87572f" >
-		<http:listener-connection host="localhost" port="8082" />
+		<http:listener-connection host="localhost" port="8181" />
 	</http:listener-config>
 	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="62db66ef-512e-4a80-a160-016dc4516ebf" />
 	<flow name="firstappFlow" doc:id="b66f18af-329a-4aff-ae91-de1ea1ddeba5" >
 		<http:listener doc:name="Listener" doc:id="3c49e66f-f222-43a4-93fb-64a18a5c3436" config-ref="HTTP_Listener_config" path="/path"/>
 		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="962d36ac-c5fb-428c-b4fa-b9536a06f9d6" variableName="variab"/>
-		<set-payload value="#[vars.variab]" doc:name="Set Payload" doc:id="29f4938f-8a99-4923-99ee-e5aa48605252" />
 		<ee:transform doc:name="Transform Message" doc:id="57a51d16-b6c2-4b44-bddd-7a97a66390e2" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -24,5 +23,9 @@ output application/json
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="7b002378-7cf1-4dd8-a94b-38612c82e244" message="HELLOW.......................... #[payload]"/>
+		<flow-ref doc:name="Flow Reference" doc:id="f05d074f-c3c8-4f81-87ce-4b69e10f9e77" name="PRIVATEFLOW"/>
+	</flow>
+	<flow name="PRIVATEFLOW" doc:id="d8d57a68-c22e-4e6d-bc85-2d90da506ede" >
+		<set-payload value="WELCOME TO THE  CABNIT" doc:name="Set Payload" doc:id="5a42826f-a92b-41a3-89ec-5a6093385769" />
 	</flow>
 </mule>
