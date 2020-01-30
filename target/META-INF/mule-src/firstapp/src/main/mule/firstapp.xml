@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="047226a1-3e7b-45a3-9b0d-d4e81a87572f" >
+		<http:listener-connection host="localhost" port="8082" />
+	</http:listener-config>
+	<flow name="firstappFlow" doc:id="b66f18af-329a-4aff-ae91-de1ea1ddeba5" >
+		<http:listener doc:name="Listener" doc:id="3c49e66f-f222-43a4-93fb-64a18a5c3436" config-ref="HTTP_Listener_config" path="/path"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7b002378-7cf1-4dd8-a94b-38612c82e244" message="HELLOW.........................."/>
+	
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"param1" : attributes.queryParams.name
+}]]]></http:query-params>
+		<http:request method="GET" doc:name="Request" doc:id="3cd5b070-d7c1-4076-9033-e54f3cb506ac" path="/data">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"param1" : attributes.queryParams.name
+}]]]></http:query-params>
+		</http:request>
+	</flow>
+</mule>
